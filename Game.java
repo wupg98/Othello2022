@@ -11,7 +11,7 @@ import javax.swing.JOptionPane;
 
 class Game extends JFrame implements ActionListener
 {
-	static Bot bot=new Bot();
+	static Bot bot=new Bot(1,7);
 
 	JPanel p;
 	JButton buttons[];

@@ -1,7 +1,8 @@
 import java.util.*;
 class Bot
 {
-	static int depth=7;
+	int color;
+	int depth;
 	static int weights[][]={{4,-3,2,2,2,2,-3,4},
 							{-3,-4,-1,-1,-1,-1,-4,-3},
 							{2,-1,1,0,0,1,-1,2},
@@ -10,6 +11,12 @@ class Bot
 							{2,-1,1,0,0,1,-1,2},
 							{-3,-4,-1,-1,-1,-1,-4,-3},
 							{4,-1,2,2,2,2,-3,4}};
+
+	Bot(int c,int d)
+	{
+		color=c;
+		depth=d;
+	}
 
 	int think(Board board,ArrayList<Integer> moves)
 	{
@@ -23,7 +30,7 @@ class Bot
 			mindBoard=new Board(board);
 			try
 			{
-				mindBoard.move(1,moves.get(i)/8,moves.get(i)%8);
+				mindBoard.move(color,moves.get(i)/8,moves.get(i)%8);
 			}
 			catch(Exception e)
 			{
@@ -47,7 +54,7 @@ class Bot
 		if(d==depth)
 			return heuristicValue(board);
 		Board mindBoard;
-		ArrayList<Integer> moves=board.findPossibleMoves(-1);
+		ArrayList<Integer> moves=board.findPossibleMoves(-color);
 		if(moves.size()==0)
 			return maxi(board,d+1,alpha,beta);
 		int i=0,l=moves.size();
@@ -57,7 +64,7 @@ class Bot
 			mindBoard=new Board(board);
 			try
 			{
-				mindBoard.move(-1,moves.get(i)/8,moves.get(i)%8);
+				mindBoard.move(-color,moves.get(i)/8,moves.get(i)%8);
 			}
 			catch(Exception e)
 			{
@@ -78,7 +85,7 @@ class Bot
 		if(d==depth)
 			return heuristicValue(board);
 		Board mindBoard;
-		ArrayList<Integer> moves=board.findPossibleMoves(1);
+		ArrayList<Integer> moves=board.findPossibleMoves(color);
 		if(moves.size()==0)
 			return mini(board,d+1,alpha,beta);
 		int i=0,l=moves.size();
@@ -88,7 +95,7 @@ class Bot
 			mindBoard=new Board(board);
 			try
 			{
-				mindBoard.move(1,moves.get(i)/8,moves.get(i)%8);
+				mindBoard.move(color,moves.get(i)/8,moves.get(i)%8);
 			}
 			catch(Exception e)
 			{
@@ -117,9 +124,9 @@ class Bot
 		{
 			for(j=0;j<8;j++)
 			{
-				if(board.grid[i][j]==1)
+				if(board.grid[i][j]==color)
 					max+=weights[i][j];
-				else if(board.grid[i][j]==-1)
+				else if(board.grid[i][j]==-color)
 					min+=weights[i][j];
 			}
 		}
@@ -130,27 +137,27 @@ class Bot
 
 	int coinParityHeuristic(Board board)
 	{
-		int countBlack=0,countWhite=0;
+		int countMax=0,countMin=0;
 		int i=0,j=0;
 		for(;i<8;i++)
 		{
 			for(j=0;j<8;j++)
 			{
-				if(board.grid[i][j]==1)
-					countWhite++;
-				else if(board.grid[i][j]==-1)
-					countBlack++;
+				if(board.grid[i][j]==color)
+					countMax++;
+				else if(board.grid[i][j]==-color)
+					countMin++;
 			}
 		}
-		if(countWhite+countBlack!=0)
-			return 100*(countWhite-countBlack)/(countWhite+countBlack);
+		if(countMax+countMin!=0)
+			return 100*(countMax-countMin)/(countMax+countMin);
 		return 0;
 	}
 
 	int mobilityHeuristic(Board board)
 	{
-		ArrayList<Integer> max=board.findPossibleMoves(1);
-		ArrayList<Integer> min=board.findPossibleMoves(-1);
+		ArrayList<Integer> max=board.findPossibleMoves(color);
+		ArrayList<Integer> min=board.findPossibleMoves(-color);
 		if(max.size()+min.size()!=0)
 			return 100*(max.size()-min.size())/(max.size()+min.size());
 		return 0;
