@@ -5,5 +5,5 @@ A simple Othello (Reversi) game made in Java.
  
  You need a Java 8 compiler to run it. Just compile Game.java and run it with the following commands:
 
-> javac Game.java
-> java Game
+> javac Game.java <
+> java Game <
