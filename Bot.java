@@ -118,7 +118,7 @@ class Bot
 	{
 		return (5*mobilityHeuristic(board))+(25*coinParityHeuristic(board))+(50*stabilityHeuristic(board));
 	}
-
+	////Synonym für evaluate() =bewerten()
 		int stabilityHeuristic(Board board){ /*getHeuristic*/
 		int theHeuristic = 0;
 	
