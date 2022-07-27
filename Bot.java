@@ -1,3 +1,5 @@
+//https://gamedev.net/forums/topic/706443-othello-heuristic-method/5424386
+//https://github.com/archilk/Othello
 import java.util.*;
 class Bot
 {
